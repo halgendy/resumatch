@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ResuMatch - Projects</title>
+    <link rel="stylesheet" href="/css/projects.css" />
+  </head>
+
+  <body>
+    <header class="topbar">
+      <h1>Projects Inventory</h1>
+      <nav class="nav">
+        <a href="/about.html">About</a>
+        <a href="/education.html">Education</a>
+        <a href="/skills.html">Skills</a>
+        <a class="active" href="/projects.html">Projects</a>
+        <a href="/experiences.html">Experiences</a>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <!-- LEFT: list -->
+      <section class="panel">
+        <div class="panel-header">
+          <h2>All Projects</h2>
+          <button id="refreshBtn" type="button">Refresh</button>
+        </div>
+
+        <ul id="projectsList" class="list"></ul>
+        <p id="emptyState" class="muted hidden">
+          No projects yet. Add one on the right →
+        </p>
+      </section>
+
+      <!-- RIGHT: form -->
+      <section class="panel">
+        <div class="panel-header">
+          <h2 id="formTitle">Add Project</h2>
+        </div>
+
+        <form id="projectForm" class="form">
+          <input type="hidden" id="projectId" />
+
+          <label>
+            Title <span class="req">*</span>
+            <input
+              id="titleInput"
+              type="text"
+              placeholder="e.g., Backend API Service"
+              required
+            />
+          </label>
+
+          <label>
+            Dates
+            <input
+              id="datesInput"
+              type="text"
+              placeholder="e.g., Jan 2024 -- Present"
+            />
+          </label>
+
+          <label>
+            Role
+            <input
+              id="roleInput"
+              type="text"
+              placeholder="e.g., Lead Developer"
+            />
+          </label>
+
+          <label>
+            Tech Stack (comma separated)
+            <input
+              id="techInput"
+              type="text"
+              placeholder="e.g., Node.js, Express, MongoDB"
+            />
+          </label>
+
+          <div class="bullets">
+            <div class="bullets-header">
+              <h3>Bullets</h3>
+              <button id="addBulletBtn" type="button">+ Add bullet</button>
+            </div>
+
+            <ul id="bulletsList" class="bullets-list"></ul>
+          </div>
+
+          <div class="actions">
+            <button type="submit">Save</button>
+            <button id="cancelBtn" type="button" class="secondary hidden">
+              Cancel
+            </button>
+            <button id="deleteBtn" type="button" class="danger hidden">
+              Delete
+            </button>
+          </div>
+
+          <p id="formMsg" class="msg"></p>
+        </form>
+      </section>
+    </main>
+
+    <script type="module" src="/js/projects/projects.js"></script>
+  </body>
+</html>
