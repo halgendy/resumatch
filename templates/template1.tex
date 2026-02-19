@@ -1,0 +1,176 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[hidelinks]{hyperref}
+\usepackage{geometry}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{ragged2e}
+\usepackage{lmodern}
+\usepackage{tgheros} % Sans-Serif Font
+\renewcommand*\familydefault{\sfdefault}
+
+% --- CONFIGURATION ---
+\newlength{\entryskip}
+\setlength{\entryskip}{4pt}
+\newlength{\secskip}
+\setlength{\secskip}{3pt} 
+
+% --- LAYOUT ---
+\geometry{letterpaper, margin=0.5in} 
+\pagestyle{empty}
+\RaggedRight
+\usepackage[none]{hyphenat}
+\usepackage[protrusion=true, expansion=true]{microtype} 
+
+% --- SECTION STYLING ---
+\titleformat{\section}
+  {\large\bfseries\uppercase} 
+  {}
+  {0em}
+  {}
+  [\titlerule]
+
+% {left}{before}{after}
+\titlespacing*{\section}{0pt}{8pt}{\secskip}
+
+% --- LIST STYLING ---
+\setlist[itemize]{leftmargin=1.2em, labelsep=0.4em, nosep}
+
+% --- TABLE STYLING ---
+\newcolumntype{L}{>{\RaggedRight\arraybackslash}X}
+\setlength{\parskip}{0pt}
+
+% --- CUSTOM COMMANDS ---
+\newcommand{\CS}{C\#}           
+\newcommand{\CPP}{C\texttt{++}}
+
+\newcommand{\name}[1]{
+    {\centering \huge \textbf{#1} \par}
+    \vspace{2pt}
+}
+
+\newcommand{\info}[1]{
+    {\centering #1 \par}
+    \vspace{1pt}
+}
+
+% --- CONTENT MACROS ---
+
+\newcommand{\education}[7]{
+    \noindent \textbf{#1} \hfill \textbf{#3} \par
+    \noindent \textit{#2} \hfill \textit{#4} \par
+    \noindent \begin{tabularx}{\linewidth}{@{}l L@{}}
+        \textbf{Honors}     & Dean’s List $|$ #5/4.0 GPA \\
+        \textit{Activities} & #6 \\
+        \textit{Coursework} & #7
+    \end{tabularx} \par
+}
+
+\newcommand{\project}[5]{
+  \noindent \textbf{#1} \hfill \textbf{#2} \par
+  \noindent \textit{#3} \hfill \textit{#4} \par
+  #5 \par 
+}
+
+\newcommand{\work}[5]{
+  \noindent \textbf{#1} \hfill \textbf{#2} \par
+  \noindent \textit{#3} \hfill \textit{#4} \par
+  #5 \par 
+}
+
+\begin{document}
+
+% --- HEADER ---
+\name{<< about.name >>}
+
+\info{
+    << about.email >> \ $|$ \ 
+    << about.phone >> \ $|$ \ 
+    << about.location >> \ $|$ \ 
+    << about.availability >>
+}
+
+\info{
+    \href{<< about.links.website.url >>}{<< about.links.website.display >>} \ $|$ \ 
+    \href{<< about.links.linkedin.url >>}{<< about.links.linkedin.display >>} \ $|$ \ 
+    \href{<< about.links.github.url >>}{<< about.links.github.display >>}
+}
+
+% --- EDUCATION ---
+\section*{EDUCATION}
+<% for edu in education %>
+    \education
+    {<< edu.school | escape_tex >>}
+    {<< edu.degree | escape_tex >>}
+    {<< edu.dates | escape_tex >>}
+    {<< edu.location | escape_tex >>}
+    {<< edu.gpa | escape_tex >>}
+    {
+        <% for act in edu.activities -%>
+            << act | escape_tex >><% if not loop.last %>, <% endif %>
+        <%- endfor %>
+    }
+    {
+        <% for course in edu.coursework -%>
+            << course | escape_tex >><% if not loop.last %>, <% endif %>
+        <%- endfor %>
+    }
+    <% if not loop.last %> \vspace{\entryskip} <% endif %>
+<% endfor %>
+
+% --- SKILLS ---
+\section*{TECHNICAL SKILLS}
+\noindent
+\begin{tabularx}{\linewidth}{@{}l L@{}}
+    <% for category, skill_list in skills.items() %>
+        \textit{<< category >>} & 
+        <% for skill in skill_list -%>
+            << skill | escape_tex >><% if not loop.last %>, <% endif %>
+        <%- endfor %> 
+        <% if not loop.last %> \\ <% endif %>
+    <% endfor %>
+\end{tabularx} \par
+
+% --- EXPERIENCE ---
+\section*{WORK EXPERIENCE}
+<% for job in experience %>
+    \work
+    {<< job.company | escape_tex >>}
+    {<< job.dates | escape_tex >>}
+    {<< job.role | escape_tex >>}
+    {<< job.location | escape_tex >>}
+    {
+        \begin{itemize}
+        <% for bullet in job.bullets %>
+            \item << bullet | escape_tex >>
+        <% endfor %>
+        \end{itemize}
+    }
+    <% if not loop.last %> \vspace{\entryskip} <% endif %>
+<% endfor %>
+
+% --- PROJECTS ---
+\section*{PROJECTS}
+<% for p in projects %>
+    \project
+    {<< p.title | escape_tex >>}
+    {<< p.dates | escape_tex >>}
+    {<< p.role | escape_tex >>}
+    {
+        <% for tech in p.tech_stack -%>
+            << tech | escape_tex >><% if not loop.last %>, <% endif %>
+        <%- endfor %>
+    }
+    {
+        \begin{itemize}
+        <% for bullet in p.bullets %>
+            \item << bullet | escape_tex >>
+        <% endfor %>
+        \end{itemize}
+    }
+    <% if not loop.last %> \vspace{\entryskip} <% endif %>
+<% endfor %>
+
+\end{document}
