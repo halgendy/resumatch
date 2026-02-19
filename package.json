@@ -1,13 +1,23 @@
 {
   "name": "resumatch",
   "version": "1.0.0",
+  "description": "",
   "type": "module",
+  "main": "src/server.js",
   "scripts": {
-    "start": "node server.js"
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
   },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
   "dependencies": {
-    "express": "^4.19.0",
-    "mongodb": "^6.21.0",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "mongodb": "^7.1.0",
     "node-latex": "^3.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.1"
   }
 }
