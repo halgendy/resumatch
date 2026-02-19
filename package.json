@@ -1,0 +1,13 @@
+{
+  "name": "resumatch",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.0",
+    "mongodb": "^6.21.0",
+    "node-latex": "^3.1.0"
+  }
+}

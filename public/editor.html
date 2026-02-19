@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResuMatch - Editor</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/editor.css">
+</head>
+<body class="editor-body">
+    <header class="editor-header">
+        <h1>
+            <a href="/" class="logo-link">ResuMatch</a>
+        </h1>
+        <span class="header-divider">/</span>
+        <h2 id="page-title">New Application</h2>
+    </header>
+
+    <div class="split-container">
+        <!-- Left side for info / customization -->
+        <div class="left-panel">
+            <form id="app-form">
+                <fieldset>
+                    <legend>Job Details</legend>
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" id="jobTitle" name="jobTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Company</label>
+                        <input type="text" id="company" name="company" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="jobDescription" name="jobDescription" rows="6"></textarea>
+                    </div>
+                </fieldset>
+
+                <fieldset id="inventory-scoring-section">
+                    <legend>Inventory & Scoring</legend>
+                    <div class="scoring-controls">
+                        <button type="button" id="score-btn">Automatically Score</button>
+                    </div>
+                    <div id="scoring-container"></div>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>Constraints</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Max Pages</label>
+                            <input type="number" id="maxPages" name="maxPages" value="1" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Font Size</label>
+                            <input type="number" id="fontSize" name="fontSize" value="11">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="form-actions sticky-footer">
+                    <button type="submit" id="save-btn">Save Application</button>
+                    <button type="button" id="generate-btn" class="hidden">Generate Resume</button>
+                    <button type="button" id="delete-btn" class="hidden">Delete</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Right side holding resume -->
+        <div class="right-panel">
+            <div id="pdf-container">
+                <iframe id="pdf-frame" title="Resume Preview"></iframe>
+                <div id="pdf-placeholder">
+                    <p>Generated resume appears here</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/editor.js"></script>
+</body>
+</html>

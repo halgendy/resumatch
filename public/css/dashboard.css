@@ -1,0 +1,29 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    border: 1px solid black;
+    padding: 20px;
+    cursor: pointer;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card h3 {
+    margin: 0 0 10px 0;
+}
+
+.card p {
+    margin: 0;
+}
+
+.new-card {
+    border: 2px dashed black;
+    align-items: center;
+    text-align: center;
+}
