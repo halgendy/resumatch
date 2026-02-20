@@ -13,7 +13,7 @@ const ABOUT_KEY = 'singleton';
  * GET /api/about
  * Returns about object or null if not set yet.
  */
-router.get('/', async (req, res) => {
+router.get('/', async (_req, res) => {
     try {
         const { about } = getCollections();
         const doc = await about.findOne({ key: ABOUT_KEY });

@@ -15,7 +15,7 @@ function normalizeStringArray(value) {
 /**
  * GET /api/education
  */
-router.get('/', async (req, res) => {
+router.get('/', async (_req, res) => {
     try {
         const { education } = getCollections();
         const data = await education.find({}).sort({ updatedAt: -1 }).toArray();

@@ -9,7 +9,7 @@ const ABOUT_KEY = 'singleton';
  * Returns a single object matching Hazem's expected mockInventory format:
  * { about, education, experience, projects }
  */
-router.get('/', async (req, res) => {
+router.get('/', async (_req, res) => {
     try {
         const { about, education, experiences, projects, skills } = getCollections();
 

@@ -139,7 +139,7 @@ async function generateAndMeasure(data, constraints, outputDir, fileName) {
 
 export const compileResume = async (applicationId, constraints, userScoredInventory) => {
     let data = JSON.parse(JSON.stringify(userScoredInventory));
-    const minScore = constraints.minScore || 1;
+    const minScore = constraints.minScore || 0;
     const maxPages = constraints.maxPages || 1;
 
     if (Array.isArray(data.skills)) {
