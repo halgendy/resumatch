@@ -124,7 +124,9 @@ async function generateAndMeasure(data, constraints, outputDir, fileName) {
         );
         outputLog = stdout;
     } catch (e) {
-        outputLog = e.stdout || '';
+        console.error("--- PDFLATEX CRASHED ---");
+        console.error("Message:", e.message);
+        outputLog = e.stdout || "";
     }
 
     const match = outputLog.match(/Output written on[\s\S]*?\(\s*(\d+)\s+page/i);
