@@ -1,116 +1,106 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ResuMatch - About</title>
-    <link rel="stylesheet" href="/css/main.css" />
-    <link rel="stylesheet" href="/css/experiences.css" />
-  </head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ResuMatch - About</title>
+        <link rel="stylesheet" href="/css/main.css" />
+        <link rel="stylesheet" href="/css/experiences.css" />
+    </head>
 
-  <body>
-    <header class="main-header">
-      <div style="display: flex; align-items: center; gap: 15px;">
-        <h1>
-          <a href="/" class="logo-link">ResuMatch</a>
-        </h1>
-        <span class="header-divider">/</span>
-        <h2 style="margin: 0; font-size: 1.2rem; font-weight: normal;">About Info</h2>
-      </div>
-      
-      <nav class="top-nav">
-        <a class="active" href="/about.html">About</a>
-        <a href="/education.html">Education</a>
-        <a href="/skills.html">Skills</a>
-        <a href="/projects.html">Projects</a>
-        <a href="/experiences.html">Experiences</a>
-      </nav>
-    </header>
-
-    <main class="layout">
-      <!-- LEFT: list -->
-      <section class="panel">
-        <div class="panel-header">
-          <h2>All Experiences</h2>
-          <button id="refreshBtn" type="button">Refresh</button>
-        </div>
-
-        <ul id="expList" class="list"></ul>
-        <p id="emptyState" class="muted hidden">
-          No experiences yet. Add one on the right →
-        </p>
-      </section>
-
-      <!-- RIGHT: form -->
-      <section class="panel">
-        <div class="panel-header">
-          <h2 id="formTitle">Add Experience</h2>
-        </div>
-
-        <form id="expForm" class="form">
-          <input type="hidden" id="expId" />
-
-          <label>
-            Company <span class="req">*</span>
-            <input
-              id="companyInput"
-              type="text"
-              placeholder="e.g., Crep Academy"
-              required
-            />
-          </label>
-
-          <label>
-            Dates
-            <input
-              id="datesInput"
-              type="text"
-              placeholder="e.g., Jun 2022 -- Oct 2022"
-            />
-          </label>
-
-          <label>
-            Role
-            <input
-              id="roleInput"
-              type="text"
-              placeholder="e.g., Data Design Intern"
-            />
-          </label>
-
-          <label>
-            Location
-            <input
-              id="locationInput"
-              type="text"
-              placeholder="e.g., Boston, MA"
-            />
-          </label>
-
-          <div class="bullets">
-            <div class="bullets-header">
-              <h3>Bullets</h3>
-              <button id="addBulletBtn" type="button">+ Add bullet</button>
+    <body>
+        <header class="main-header">
+            <div style="display: flex; align-items: center; gap: 15px">
+                <h1>
+                    <a href="/" class="logo-link">ResuMatch</a>
+                </h1>
+                <span class="header-divider">/</span>
+                <h2 style="margin: 0; font-size: 1.2rem; font-weight: normal">About Info</h2>
             </div>
 
-            <ul id="bulletsList" class="bullets-list"></ul>
-          </div>
+            <nav class="top-nav">
+                <a class="active" href="/about.html">About</a>
+                <a href="/education.html">Education</a>
+                <a href="/skills.html">Skills</a>
+                <a href="/projects.html">Projects</a>
+                <a href="/experiences.html">Experiences</a>
+            </nav>
+        </header>
 
-          <div class="actions">
-            <button type="submit">Save</button>
-            <button id="cancelBtn" type="button" class="secondary hidden">
-              Cancel
-            </button>
-            <button id="deleteBtn" type="button" class="danger hidden">
-              Delete
-            </button>
-          </div>
+        <main class="layout">
+            <!-- LEFT: list -->
+            <section class="panel">
+                <div class="panel-header">
+                    <h2>All Experiences</h2>
+                    <button id="refreshBtn" type="button">Refresh</button>
+                </div>
 
-          <p id="formMsg" class="msg"></p>
-        </form>
-      </section>
-    </main>
+                <ul id="expList" class="list"></ul>
+                <p id="emptyState" class="muted hidden">
+                    No experiences yet. Add one on the right →
+                </p>
+            </section>
 
-    <script type="module" src="/js/experiences.js"></script>
-  </body>
+            <!-- RIGHT: form -->
+            <section class="panel">
+                <div class="panel-header">
+                    <h2 id="formTitle">Add Experience</h2>
+                </div>
+
+                <form id="expForm" class="form">
+                    <input type="hidden" id="expId" />
+
+                    <label>
+                        Company <span class="req">*</span>
+                        <input
+                            id="companyInput"
+                            type="text"
+                            placeholder="e.g., Crep Academy"
+                            required
+                        />
+                    </label>
+
+                    <label>
+                        Dates
+                        <input
+                            id="datesInput"
+                            type="text"
+                            placeholder="e.g., Jun 2022 -- Oct 2022"
+                        />
+                    </label>
+
+                    <label>
+                        Role
+                        <input id="roleInput" type="text" placeholder="e.g., Data Design Intern" />
+                    </label>
+
+                    <label>
+                        Location
+                        <input id="locationInput" type="text" placeholder="e.g., Boston, MA" />
+                    </label>
+
+                    <div class="bullets">
+                        <div class="bullets-header">
+                            <h3>Bullets</h3>
+                            <button id="addBulletBtn" type="button">+ Add bullet</button>
+                        </div>
+
+                        <ul id="bulletsList" class="bullets-list"></ul>
+                    </div>
+
+                    <div class="actions">
+                        <button type="submit">Save</button>
+                        <button id="cancelBtn" type="button" class="secondary hidden">
+                            Cancel
+                        </button>
+                        <button id="deleteBtn" type="button" class="danger hidden">Delete</button>
+                    </div>
+
+                    <p id="formMsg" class="msg"></p>
+                </form>
+            </section>
+        </main>
+
+        <script type="module" src="/js/experiences.js"></script>
+    </body>
 </html>

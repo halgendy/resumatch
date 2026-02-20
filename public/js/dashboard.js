@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const applications = await response.json();
 
         // Make links to pages of each job app
-        applications.forEach(app => {
+        applications.forEach((app) => {
             const link = document.createElement('a');
             link.href = `/editor?id=${app._id}`;
             link.className = 'card';

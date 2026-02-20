@@ -1,117 +1,109 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ResuMatch - About</title>
-    <link rel="stylesheet" href="/css/main.css" />
-    <link rel="stylesheet" href="/css/about.css" />
-  </head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ResuMatch - About</title>
+        <link rel="stylesheet" href="/css/main.css" />
+        <link rel="stylesheet" href="/css/about.css" />
+    </head>
 
-  <body>
-    <header class="main-header">
-      <div style="display: flex; align-items: center; gap: 15px;">
-        <h1>
-          <a href="/" class="logo-link">ResuMatch</a>
-        </h1>
-        <span class="header-divider">/</span>
-        <h2 style="margin: 0; font-size: 1.2rem; font-weight: normal;">About Info</h2>
-      </div>
-      
-      <nav class="top-nav">
-        <a class="active" href="/about.html">About</a>
-        <a href="/education.html">Education</a>
-        <a href="/skills.html">Skills</a>
-        <a href="/projects.html">Projects</a>
-        <a href="/experiences.html">Experiences</a>
-      </nav>
-    </header>
+    <body>
+        <header class="main-header">
+            <div style="display: flex; align-items: center; gap: 15px">
+                <h1>
+                    <a href="/" class="logo-link">ResuMatch</a>
+                </h1>
+                <span class="header-divider">/</span>
+                <h2 style="margin: 0; font-size: 1.2rem; font-weight: normal">About Info</h2>
+            </div>
 
-    <main class="wrap">
-      <section class="panel">
-        <div class="panel-header">
-          <h2>Contact & Links</h2>
-          <button id="reloadBtn" type="button">Reload</button>
-        </div>
+            <nav class="top-nav">
+                <a class="active" href="/about.html">About</a>
+                <a href="/education.html">Education</a>
+                <a href="/skills.html">Skills</a>
+                <a href="/projects.html">Projects</a>
+                <a href="/experiences.html">Experiences</a>
+            </nav>
+        </header>
 
-        <form id="aboutForm" class="form">
-          <div class="grid2">
-            <label>
-              Name
-              <input id="nameInput" type="text" placeholder="Your name" />
-            </label>
-            <label>
-              Phone
-              <input id="phoneInput" type="text" placeholder="123-456-7890" />
-            </label>
-            <label>
-              Email
-              <input id="emailInput" type="email" placeholder="you@email.com" />
-            </label>
-            <label>
-              Location
-              <input id="locationInput" type="text" placeholder="Boston, MA" />
-            </label>
-            <label class="span2">
-              Availability
-              <input
-                id="availabilityInput"
-                type="text"
-                placeholder="Available whenever"
-              />
-            </label>
-          </div>
+        <main class="wrap">
+            <section class="panel">
+                <div class="panel-header">
+                    <h2>Contact & Links</h2>
+                    <button id="reloadBtn" type="button">Reload</button>
+                </div>
 
-          <h3>Links</h3>
-          <div class="grid2">
-            <label>
-              Website display
-              <input id="webDisplay" type="text" placeholder="website.com" />
-            </label>
-            <label>
-              Website url
-              <input id="webUrl" type="url" placeholder="https://website.com" />
-            </label>
+                <form id="aboutForm" class="form">
+                    <div class="grid2">
+                        <label>
+                            Name
+                            <input id="nameInput" type="text" placeholder="Your name" />
+                        </label>
+                        <label>
+                            Phone
+                            <input id="phoneInput" type="text" placeholder="123-456-7890" />
+                        </label>
+                        <label>
+                            Email
+                            <input id="emailInput" type="email" placeholder="you@email.com" />
+                        </label>
+                        <label>
+                            Location
+                            <input id="locationInput" type="text" placeholder="Boston, MA" />
+                        </label>
+                        <label class="span2">
+                            Availability
+                            <input
+                                id="availabilityInput"
+                                type="text"
+                                placeholder="Available whenever"
+                            />
+                        </label>
+                    </div>
 
-            <label>
-              LinkedIn display
-              <input
-                id="liDisplay"
-                type="text"
-                placeholder="linkedin.com/in/you"
-              />
-            </label>
-            <label>
-              LinkedIn url
-              <input
-                id="liUrl"
-                type="url"
-                placeholder="https://linkedin.com/in/you"
-              />
-            </label>
+                    <h3>Links</h3>
+                    <div class="grid2">
+                        <label>
+                            Website display
+                            <input id="webDisplay" type="text" placeholder="website.com" />
+                        </label>
+                        <label>
+                            Website url
+                            <input id="webUrl" type="url" placeholder="https://website.com" />
+                        </label>
 
-            <label>
-              GitHub display
-              <input id="ghDisplay" type="text" placeholder="github.com/you" />
-            </label>
-            <label>
-              GitHub url
-              <input
-                id="ghUrl"
-                type="url"
-                placeholder="https://github.com/you"
-              />
-            </label>
-          </div>
+                        <label>
+                            LinkedIn display
+                            <input id="liDisplay" type="text" placeholder="linkedin.com/in/you" />
+                        </label>
+                        <label>
+                            LinkedIn url
+                            <input
+                                id="liUrl"
+                                type="url"
+                                placeholder="https://linkedin.com/in/you"
+                            />
+                        </label>
 
-          <div class="actions">
-            <button type="submit">Save</button>
-            <span id="msg" class="msg"></span>
-          </div>
-        </form>
-      </section>
-    </main>
+                        <label>
+                            GitHub display
+                            <input id="ghDisplay" type="text" placeholder="github.com/you" />
+                        </label>
+                        <label>
+                            GitHub url
+                            <input id="ghUrl" type="url" placeholder="https://github.com/you" />
+                        </label>
+                    </div>
 
-    <script type="module" src="/js/about.js"></script>
-  </body>
+                    <div class="actions">
+                        <button type="submit">Save</button>
+                        <span id="msg" class="msg"></span>
+                    </div>
+                </form>
+            </section>
+        </main>
+
+        <script type="module" src="/js/about.js"></script>
+    </body>
 </html>

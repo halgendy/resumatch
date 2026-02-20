@@ -1,131 +1,124 @@
 <!doctype html>
 <html lang="en">
-  <head>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ResuMatch - About</title>
-    <link rel="stylesheet" href="/css/main.css" />
-    <link rel="stylesheet" href="/css/education.css" />
-  </head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ResuMatch - About</title>
+        <link rel="stylesheet" href="/css/main.css" />
+        <link rel="stylesheet" href="/css/education.css" />
+    </head>
 
-  <body>
-    <header class="main-header">
-      <div style="display: flex; align-items: center; gap: 15px;">
-        <h1>
-          <a href="/" class="logo-link">ResuMatch</a>
-        </h1>
-        <span class="header-divider">/</span>
-        <h2 style="margin: 0; font-size: 1.2rem; font-weight: normal;">About Info</h2>
-      </div>
-      
-      <nav class="top-nav">
-        <a class="active" href="/about.html">About</a>
-        <a href="/education.html">Education</a>
-        <a href="/skills.html">Skills</a>
-        <a href="/projects.html">Projects</a>
-        <a href="/experiences.html">Experiences</a>
-      </nav>
-    </header>
+    <body>
+        <header class="main-header">
+            <div style="display: flex; align-items: center; gap: 15px">
+                <h1>
+                    <a href="/" class="logo-link">ResuMatch</a>
+                </h1>
+                <span class="header-divider">/</span>
+                <h2 style="margin: 0; font-size: 1.2rem; font-weight: normal">About Info</h2>
+            </div>
 
-    <main class="layout">
-      <!-- LEFT: list -->
-      <section class="panel">
-        <div class="panel-header">
-          <h2>All Education</h2>
-          <button id="refreshBtn" type="button">Refresh</button>
-        </div>
+            <nav class="top-nav">
+                <a class="active" href="/about.html">About</a>
+                <a href="/education.html">Education</a>
+                <a href="/skills.html">Skills</a>
+                <a href="/projects.html">Projects</a>
+                <a href="/experiences.html">Experiences</a>
+            </nav>
+        </header>
 
-        <ul id="eduList" class="list"></ul>
-        <p id="emptyState" class="muted hidden">
-          No education records yet. Add one on the right →
-        </p>
-      </section>
+        <main class="layout">
+            <!-- LEFT: list -->
+            <section class="panel">
+                <div class="panel-header">
+                    <h2>All Education</h2>
+                    <button id="refreshBtn" type="button">Refresh</button>
+                </div>
 
-      <!-- RIGHT: form -->
-      <section class="panel">
-        <div class="panel-header">
-          <h2 id="formTitle">Add Education</h2>
-        </div>
+                <ul id="eduList" class="list"></ul>
+                <p id="emptyState" class="muted hidden">
+                    No education records yet. Add one on the right →
+                </p>
+            </section>
 
-        <form id="eduForm" class="form">
-          <input type="hidden" id="eduId" />
+            <!-- RIGHT: form -->
+            <section class="panel">
+                <div class="panel-header">
+                    <h2 id="formTitle">Add Education</h2>
+                </div>
 
-          <label>
-            School <span class="req">*</span>
-            <input
-              id="schoolInput"
-              type="text"
-              placeholder="e.g., Northeastern University"
-              required
-            />
-          </label>
+                <form id="eduForm" class="form">
+                    <input type="hidden" id="eduId" />
 
-          <label>
-            Location
-            <input
-              id="locationInput"
-              type="text"
-              placeholder="e.g., Boston, MA"
-            />
-          </label>
+                    <label>
+                        School <span class="req">*</span>
+                        <input
+                            id="schoolInput"
+                            type="text"
+                            placeholder="e.g., Northeastern University"
+                            required
+                        />
+                    </label>
 
-          <label>
-            Dates
-            <input
-              id="datesInput"
-              type="text"
-              placeholder="e.g., Sep 2024 -- May 2026"
-            />
-          </label>
+                    <label>
+                        Location
+                        <input id="locationInput" type="text" placeholder="e.g., Boston, MA" />
+                    </label>
 
-          <label>
-            Degree
-            <input
-              id="degreeInput"
-              type="text"
-              placeholder="e.g., MS in Computer Science"
-            />
-          </label>
+                    <label>
+                        Dates
+                        <input
+                            id="datesInput"
+                            type="text"
+                            placeholder="e.g., Sep 2024 -- May 2026"
+                        />
+                    </label>
 
-          <label>
-            GPA
-            <input id="gpaInput" type="text" placeholder="e.g., 3.8" />
-          </label>
+                    <label>
+                        Degree
+                        <input
+                            id="degreeInput"
+                            type="text"
+                            placeholder="e.g., MS in Computer Science"
+                        />
+                    </label>
 
-          <label>
-            Activities (comma separated)
-            <input
-              id="activitiesInput"
-              type="text"
-              placeholder="e.g., TA, Club, Volunteering"
-            />
-          </label>
+                    <label>
+                        GPA
+                        <input id="gpaInput" type="text" placeholder="e.g., 3.8" />
+                    </label>
 
-          <label>
-            Coursework (comma separated)
-            <input
-              id="courseworkInput"
-              type="text"
-              placeholder="e.g., Algorithms, Databases, NLP"
-            />
-          </label>
+                    <label>
+                        Activities (comma separated)
+                        <input
+                            id="activitiesInput"
+                            type="text"
+                            placeholder="e.g., TA, Club, Volunteering"
+                        />
+                    </label>
 
-          <div class="actions">
-            <button type="submit">Save</button>
-            <button id="cancelBtn" type="button" class="secondary hidden">
-              Cancel
-            </button>
-            <button id="deleteBtn" type="button" class="danger hidden">
-              Delete
-            </button>
-          </div>
+                    <label>
+                        Coursework (comma separated)
+                        <input
+                            id="courseworkInput"
+                            type="text"
+                            placeholder="e.g., Algorithms, Databases, NLP"
+                        />
+                    </label>
 
-          <p id="formMsg" class="msg"></p>
-        </form>
-      </section>
-    </main>
+                    <div class="actions">
+                        <button type="submit">Save</button>
+                        <button id="cancelBtn" type="button" class="secondary hidden">
+                            Cancel
+                        </button>
+                        <button id="deleteBtn" type="button" class="danger hidden">Delete</button>
+                    </div>
 
-    <script type="module" src="/js/education.js"></script>
-  </body>
+                    <p id="formMsg" class="msg"></p>
+                </form>
+            </section>
+        </main>
+
+        <script type="module" src="/js/education.js"></script>
+    </body>
 </html>

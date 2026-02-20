@@ -1,26 +1,26 @@
 services:
-  app:
-    build: .
-    restart: always
-    ports:
-      - "3000:3000"
-    environment:
-      - PORT=3000
-      - MONGO_URI=mongodb://db:27017/resumatch
-    depends_on:
-      - db
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    command: sh -c "npm install && npm start"
+    app:
+        build: .
+        restart: always
+        ports:
+            - '3000:3000'
+        environment:
+            - PORT=3000
+            - MONGO_URI=mongodb://db:27017/resumatch
+        depends_on:
+            - db
+        volumes:
+            - .:/usr/src/app
+            - /usr/src/app/node_modules
+        command: sh -c "npm install && npm start"
 
-  db:
-    image: mongo:latest
-    restart: always
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
+    db:
+        image: mongo:latest
+        restart: always
+        ports:
+            - '27017:27017'
+        volumes:
+            - mongo_data:/data/db
 
 volumes:
-  mongo_data:
+    mongo_data:

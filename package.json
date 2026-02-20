@@ -1,13 +1,23 @@
 {
-  "name": "resumatch",
-  "version": "1.0.0",
-  "type": "module",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "express": "^4.19.0",
-    "mongodb": "^6.21.0",
-    "nunjucks": "^3.2.4"
-  }
+    "name": "resumatch",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "start": "node server.js",
+        "format": "prettier --write .",
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix"
+    },
+    "dependencies": {
+        "express": "^4.19.0",
+        "mongodb": "^6.21.0",
+        "nunjucks": "^3.2.4"
+    },
+    "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "eslint": "^10.0.1",
+        "eslint-config-prettier": "^10.1.8",
+        "globals": "^17.3.0",
+        "prettier": "^3.8.1"
+    }
 }

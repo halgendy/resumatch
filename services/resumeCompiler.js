@@ -13,19 +13,33 @@ const __dirname = path.dirname(__filename);
 const env = nunjucks.configure(path.join(__dirname, '../templates'), {
     autoescape: false,
     tags: {
-        blockStart: '<%', blockEnd: '%>',
-        variableStart: '<<', variableEnd: '>>',
-        commentStart: '<#', commentEnd: '#>'
-    }
+        blockStart: '<%',
+        blockEnd: '%>',
+        variableStart: '<<',
+        variableEnd: '>>',
+        commentStart: '<#',
+        commentEnd: '#>',
+    },
 });
 
 env.addFilter('escape_tex', (text) => {
     if (typeof text !== 'string') return text;
-    if (text === "C#") return "\\CS";
-    if (text === "C++") return "\\CPP";
-    
+    if (text === 'C#') return '\\CS';
+    if (text === 'C++') return '\\CPP';
+
     let escaped = text.replace(/[&%$#_{}~^\\]/g, (match) => {
-        const replacements = { '&': '\\&', '%': '\\%', '$': '\\$', '#': '\\#', '_': '\\_', '{': '\\{', '}': '\\}', '~': '\\textasciitilde{}', '^': '\\textasciicircum{}', '\\': '\\textbackslash{}' };
+        const replacements = {
+            '&': '\\&',
+            '%': '\\%',
+            $: '\\$',
+            '#': '\\#',
+            _: '\\_',
+            '{': '\\{',
+            '}': '\\}',
+            '~': '\\textasciitilde{}',
+            '^': '\\textasciicircum{}',
+            '\\': '\\textbackslash{}',
+        };
         return replacements[match];
     });
     return escaped.replace(/\*\*(.*?)\*\*/g, '\\textbf{$1}');
@@ -40,18 +54,38 @@ function executeCheapestCut(data) {
     // Analyze scores of projects
     data.projects?.forEach((p, idx) => {
         if (p.bullets.length > MIN_BULLETS) {
-            moves.push({ type: 'trim_proj', idx, cost: p.bullets[p.bullets.length - 1].score, desc: `Trim '${p.title}' bullet #${p.bullets.length}` });
+            moves.push({
+                type: 'trim_proj',
+                idx,
+                cost: p.bullets[p.bullets.length - 1].score,
+                desc: `Trim '${p.title}' bullet #${p.bullets.length}`,
+            });
         } else if (p.bullets.length === MIN_BULLETS) {
-            moves.push({ type: 'drop_proj', idx, cost: p.bullets.reduce((sum, b) => sum + b.score, 0), desc: `Drop '${p.title}' entirely` });
+            moves.push({
+                type: 'drop_proj',
+                idx,
+                cost: p.bullets.reduce((sum, b) => sum + b.score, 0),
+                desc: `Drop '${p.title}' entirely`,
+            });
         }
     });
 
     // Analyze scores of experience
     data.experience?.forEach((e, idx) => {
         if (e.bullets.length > MIN_BULLETS) {
-            moves.push({ type: 'trim_exp', idx, cost: e.bullets[e.bullets.length - 1].score, desc: `Trim '${e.company}' bullet #${e.bullets.length}` });
+            moves.push({
+                type: 'trim_exp',
+                idx,
+                cost: e.bullets[e.bullets.length - 1].score,
+                desc: `Trim '${e.company}' bullet #${e.bullets.length}`,
+            });
         } else if (e.bullets.length === MIN_BULLETS) {
-            moves.push({ type: 'drop_exp', idx, cost: e.bullets.reduce((sum, b) => sum + b.score, 0) + 100, desc: `Drop '${e.company}' entirely` });
+            moves.push({
+                type: 'drop_exp',
+                idx,
+                cost: e.bullets.reduce((sum, b) => sum + b.score, 0) + 100,
+                desc: `Drop '${e.company}' entirely`,
+            });
         }
     });
 
@@ -60,7 +94,7 @@ function executeCheapestCut(data) {
     // Sort by cost, execute the cheapest
     moves.sort((a, b) => a.cost - b.cost);
     const best = moves[0];
-    
+
     console.log(`      Action: ${best.desc} (Cost: ${best.cost})`);
 
     if (best.type === 'trim_proj') data.projects[best.idx].bullets.pop();
@@ -74,26 +108,32 @@ function executeCheapestCut(data) {
 // Generates the .tex, compiles it, and parses the stdout to check page count
 async function generateAndMeasure(data, constraints, outputDir, fileName) {
     let texString = env.render('template1.tex', data);
-    texString = texString.replace(/\\documentclass\[.*?\]\{article\}/, `\\documentclass[${constraints.fontSize || 11}pt]{article}`);
+    texString = texString.replace(
+        /\\documentclass\[.*?\]\{article\}/,
+        `\\documentclass[${constraints.fontSize || 11}pt]{article}`
+    );
 
     const texPath = path.join(outputDir, `${fileName}.tex`);
     fs.writeFileSync(texPath, texString);
 
-    let outputLog = "";
+    let outputLog = '';
     try {
-        const { stdout } = await execAsync(`pdflatex -interaction=nonstopmode -output-directory=${outputDir} ${texPath}`, { maxBuffer: 1024 * 1024 * 5 });
+        const { stdout } = await execAsync(
+            `pdflatex -interaction=nonstopmode -output-directory=${outputDir} ${texPath}`,
+            { maxBuffer: 1024 * 1024 * 5 }
+        );
         outputLog = stdout;
     } catch (e) {
-        outputLog = e.stdout || "";
+        outputLog = e.stdout || '';
     }
 
     const match = outputLog.match(/Output written on[\s\S]*?\(\s*(\d+)\s+page/i);
-    
+
     if (match) {
         return parseInt(match[1], 10);
     }
-    
-    console.log("[Debug] Could not parse page count from pdflatex. Assuming 1.");
+
+    console.log('[Debug] Could not parse page count from pdflatex. Assuming 1.');
     return 1;
 }
 
@@ -104,10 +144,10 @@ export const compileResume = async (applicationId, constraints, userScoredInvent
 
     if (Array.isArray(data.skills)) {
         const formattedSkills = {};
-        
-        data.skills.forEach(skillDoc => {
+
+        data.skills.forEach((skillDoc) => {
             // Use the category provided, fallback if blank
-            const category = skillDoc.category || "Other";
+            const category = skillDoc.category || 'Other';
             const skillName = skillDoc.name;
 
             if (skillName) {
@@ -119,36 +159,38 @@ export const compileResume = async (applicationId, constraints, userScoredInvent
                 formattedSkills[category].push(skillName);
             }
         });
-        
+
         data.skills = formattedSkills;
     }
 
-    console.log("--- Applying Score Constraints ---");
-    ['experience', 'projects'].forEach(section => {
+    console.log('--- Applying Score Constraints ---');
+    ['experience', 'projects'].forEach((section) => {
         if (!data[section]) return;
-        data[section].forEach(item => {
-            item.bullets = item.bullets.filter(b => b.score >= minScore).sort((a, b) => b.score - a.score);
+        data[section].forEach((item) => {
+            item.bullets = item.bullets
+                .filter((b) => b.score >= minScore)
+                .sort((a, b) => b.score - a.score);
         });
-        data[section] = data[section].filter(item => item.bullets.length >= MIN_BULLETS);
+        data[section] = data[section].filter((item) => item.bullets.length >= MIN_BULLETS);
     });
 
     const outputDir = path.join(__dirname, '../public/pdfs');
     if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
     const fileName = `resume_${applicationId}`;
 
-    console.log("--- Page Fitting ---");
-    
+    console.log('--- Page Fitting ---');
+
     // Initial compile and measure
     let pages = await generateAndMeasure(data, constraints, outputDir, fileName);
-    
+
     let iteration = 0;
     while (pages > maxPages && iteration < 50) {
         console.log(`   Iteration ${iteration}: ${pages} pages. Calculating lowest cost cut...`);
-        
+
         const canCut = executeCheapestCut(data);
         if (!canCut) {
-            console.log("   WARNING: No valid moves left. Cannot shrink further.");
-            break; 
+            console.log('   WARNING: No valid moves left. Cannot shrink further.');
+            break;
         }
 
         // Reccompile and measure after a cut
@@ -160,6 +202,6 @@ export const compileResume = async (applicationId, constraints, userScoredInvent
 
     return {
         pdfUrl: `/pdfs/${fileName}.pdf`,
-        snapshotData: data 
+        snapshotData: data,
     };
 };
