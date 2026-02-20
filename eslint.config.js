@@ -15,8 +15,13 @@ export default [
             },
         },
         rules: {
-            'no-unused-vars': 'warn',
-            'no-console': 'off',
+            "no-unused-vars": ["warn", { 
+                "argsIgnorePattern": "^_",
+                "varsIgnorePattern": "^_",
+                "ignoreRestSiblings": true 
+            }],
+            "no-useless-assignment": "warn",
+            "no-console": "off",
         },
     },
     {

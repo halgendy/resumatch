@@ -116,7 +116,7 @@ async function generateAndMeasure(data, constraints, outputDir, fileName) {
     const texPath = path.join(outputDir, `${fileName}.tex`);
     fs.writeFileSync(texPath, texString);
 
-    let outputLog = '';
+    let outputLog;
     try {
         const { stdout } = await execAsync(
             `pdflatex -interaction=nonstopmode -output-directory=${outputDir} ${texPath}`,
