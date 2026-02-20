@@ -38,6 +38,32 @@ header h1 {
     color: #ccc;
 }
 
+/* Header layout */
+.main-header {
+    display: flex;
+    justify-content: space-between; /* Pushes logo left, nav right */
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.top-nav {
+    display: flex;
+    gap: 20px;
+}
+
+.top-nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+.top-nav a:hover {
+    color: #007bff;
+    text-decoration: underline;
+}
+
 .hidden {
     display: none;
 }

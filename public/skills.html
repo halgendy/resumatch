@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ResuMatch - About</title>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/skills.css" />
+  </head>
+
+  <body>
+    <header class="main-header">
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <h1>
+          <a href="/" class="logo-link">ResuMatch</a>
+        </h1>
+        <span class="header-divider">/</span>
+        <h2 style="margin: 0; font-size: 1.2rem; font-weight: normal;">About Info</h2>
+      </div>
+      
+      <nav class="top-nav">
+        <a class="active" href="/about.html">About</a>
+        <a href="/education.html">Education</a>
+        <a href="/skills.html">Skills</a>
+        <a href="/projects.html">Projects</a>
+        <a href="/experiences.html">Experiences</a>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <!-- LEFT: list -->
+      <section class="panel">
+        <div class="panel-header">
+          <h2>All Skills</h2>
+          <button id="refreshBtn" type="button">Refresh</button>
+        </div>
+
+        <ul id="skillsList" class="list"></ul>
+        <p id="emptyState" class="muted hidden">
+          No skills yet. Add one on the right →
+        </p>
+      </section>
+
+      <!-- RIGHT: form -->
+      <section class="panel">
+        <div class="panel-header">
+          <h2 id="formTitle">Add Skill</h2>
+        </div>
+
+        <form id="skillForm" class="form">
+          <input type="hidden" id="skillId" />
+
+          <label>
+            Name <span class="req">*</span>
+            <input
+              id="nameInput"
+              name="name"
+              type="text"
+              placeholder="e.g., Node.js"
+              required
+            />
+          </label>
+
+          <label>
+            Category
+            <input
+              id="categoryInput"
+              name="category"
+              type="text"
+              placeholder="e.g., backend"
+            />
+          </label>
+
+          <div class="actions">
+            <button id="saveBtn" type="submit">Save</button>
+            <button id="cancelBtn" type="button" class="secondary hidden">
+              Cancel
+            </button>
+          </div>
+
+          <p id="formMsg" class="msg"></p>
+        </form>
+      </section>
+    </main>
+
+    <script type="module" src="/js/skills.js"></script>
+  </body>
+</html>

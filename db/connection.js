@@ -23,3 +23,17 @@ export const getDb = () => {
     }
     return dbInstance;
 };
+
+export function getCollections() {
+  if (!dbInstance) {
+    throw new Error("Database not initialized");
+  }
+
+  return {
+    about: dbInstance.collection("about"),
+    education: dbInstance.collection("education"),
+    skills: dbInstance.collection("skills"),
+    projects: dbInstance.collection("projects"),
+    experiences: dbInstance.collection("experiences"),
+  };
+}

@@ -99,10 +99,31 @@ async function generateAndMeasure(data, constraints, outputDir, fileName) {
 
 export const compileResume = async (applicationId, constraints, userScoredInventory) => {
     let data = JSON.parse(JSON.stringify(userScoredInventory));
-    const minScore = constraints.minScore || 40;
+    const minScore = constraints.minScore || 1;
     const maxPages = constraints.maxPages || 1;
 
-    console.log("--- Phase 1: Applying Score Threshold Constraints ---");
+    if (Array.isArray(data.skills)) {
+        const formattedSkills = {};
+        
+        data.skills.forEach(skillDoc => {
+            // Use the category provided, fallback if blank
+            const category = skillDoc.category || "Other";
+            const skillName = skillDoc.name;
+
+            if (skillName) {
+                // If this category doesn't exist yet in dictionary, create it
+                if (!formattedSkills[category]) {
+                    formattedSkills[category] = [];
+                }
+                // Push the skill name into the category's array
+                formattedSkills[category].push(skillName);
+            }
+        });
+        
+        data.skills = formattedSkills;
+    }
+
+    console.log("--- Applying Score Constraints ---");
     ['experience', 'projects'].forEach(section => {
         if (!data[section]) return;
         data[section].forEach(item => {
@@ -115,7 +136,7 @@ export const compileResume = async (applicationId, constraints, userScoredInvent
     if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
     const fileName = `resume_${applicationId}`;
 
-    console.log("--- Phase 2: The Lifeboat (Page Fitting) ---");
+    console.log("--- Page Fitting ---");
     
     // Initial compile and measure
     let pages = await generateAndMeasure(data, constraints, outputDir, fileName);
