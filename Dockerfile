@@ -3,14 +3,12 @@ FROM node:20-bullseye
 WORKDIR /usr/src/app
 
 # Latex and fonts / dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y \
     texlive-latex-base \
     texlive-latex-recommended \
     texlive-latex-extra \
     texlive-fonts-recommended \
     texlive-fonts-extra \
-    lmodern \
-    tex-gyre \
     && rm -rf /var/lib/apt/lists/*
 
 COPY package*.json ./
