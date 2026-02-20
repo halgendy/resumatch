@@ -124,8 +124,8 @@
 \section*{TECHNICAL SKILLS}
 \noindent
 \begin{tabularx}{\linewidth}{@{}l L@{}}
-    <% for category, skill_list in skills.items() %>
-        \textit{<< category >>} & 
+    <% for category, skill_list in skills %>
+        \textit{<< category | escape_tex >>} & 
         <% for skill in skill_list -%>
             << skill | escape_tex >><% if not loop.last %>, <% endif %>
         <%- endfor %> 
@@ -144,7 +144,7 @@
     {
         \begin{itemize}
         <% for bullet in job.bullets %>
-            \item << bullet | escape_tex >>
+            \item << bullet.text | escape_tex >>
         <% endfor %>
         \end{itemize}
     }
@@ -166,7 +166,7 @@
     {
         \begin{itemize}
         <% for bullet in p.bullets %>
-            \item << bullet | escape_tex >>
+            \item << bullet.text | escape_tex >>
         <% endfor %>
         \end{itemize}
     }

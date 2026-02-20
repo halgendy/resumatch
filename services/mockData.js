@@ -16,6 +16,11 @@ export const mockInventory = {
             coursework: ["Object-Oriented Food", "Eggs & Data Structures", "Toast Systems"]
         }
     ],
+    skills: {
+        "Languages": ["Python", "Java", "JavaScript", "C++", "C#", "SQL"],
+        "Frameworks": ["React", "Next.js", "ROS2", "Django"],
+        "Tools & Tech": ["Docker", "AWS", "MongoDB", "Linux", "Git"]
+    },
     experience: [
         {
             company: "Crep Academy", dates: "Jun 2022 -- Oct 2022", role: "Data Design Intern", location: "Spaulding Rehabilitation, Boston, MA",
@@ -27,6 +32,105 @@ export const mockInventory = {
         }
     ],
     projects: [
+        {
+            title: "Paris Crep Making", dates: "Jan 2024 -- Present", role: "Lead Cook",
+            tech_stack: ["Jazz", "Python", "C++", "React", "Docker"],
+            bullets: [
+                { text: "Cooked Creps" },
+                { text: "Made baked goods" },
+                { text: "Ate good food" }
+            ]
+        },
+        {
+            title: "Paris Crep Making", dates: "Jan 2024 -- Present", role: "Lead Cook",
+            tech_stack: ["Jazz", "Python", "C++", "React", "Docker"],
+            bullets: [
+                { text: "Cooked Creps" },
+                { text: "Made baked goods" },
+                { text: "Ate good food" }
+            ]
+        },
+        {
+            title: "Paris Crep Making", dates: "Jan 2024 -- Present", role: "Lead Cook",
+            tech_stack: ["Jazz", "Python", "C++", "React", "Docker"],
+            bullets: [
+                { text: "Cooked Creps" },
+                { text: "Made baked goods" },
+                { text: "Ate good food" }
+            ]
+        },
+        {
+            title: "Paris Crep Making", dates: "Jan 2024 -- Present", role: "Lead Cook",
+            tech_stack: ["Jazz", "Python", "C++", "React", "Docker"],
+            bullets: [
+                { text: "Cooked Creps" },
+                { text: "Made baked goods" },
+                { text: "Ate good food" }
+            ]
+        },
+        {
+            title: "Paris Crep Making", dates: "Jan 2024 -- Present", role: "Lead Cook",
+            tech_stack: ["Jazz", "Python", "C++", "React", "Docker"],
+            bullets: [
+                { text: "Cooked Creps" },
+                { text: "Made baked goods" },
+                { text: "Ate good food" }
+            ]
+        },
+        {
+            title: "Paris Crep Making", dates: "Jan 2024 -- Present", role: "Lead Cook",
+            tech_stack: ["Jazz", "Python", "C++", "React", "Docker"],
+            bullets: [
+                { text: "Cooked Creps" },
+                { text: "Made baked goods" },
+                { text: "Ate good food" }
+            ]
+        },
+        {
+            title: "Paris Crep Making", dates: "Jan 2024 -- Present", role: "Lead Cook",
+            tech_stack: ["Jazz", "Python", "C++", "React", "Docker"],
+            bullets: [
+                { text: "Cooked Creps" },
+                { text: "Made baked goods" },
+                { text: "Ate good food" }
+            ]
+        },
+        {
+            title: "Paris Crep Making", dates: "Jan 2024 -- Present", role: "Lead Cook",
+            tech_stack: ["Jazz", "Python", "C++", "React", "Docker"],
+            bullets: [
+                { text: "Cooked Creps" },
+                { text: "Made baked goods" },
+                { text: "Ate good food" }
+            ]
+        },
+        {
+            title: "Paris Crep Making", dates: "Jan 2024 -- Present", role: "Lead Cook",
+            tech_stack: ["Jazz", "Python", "C++", "React", "Docker"],
+            bullets: [
+                { text: "Cooked Creps" },
+                { text: "Made baked goods" },
+                { text: "Ate good food" }
+            ]
+        },
+        {
+            title: "Paris Crep Making", dates: "Jan 2024 -- Present", role: "Lead Cook",
+            tech_stack: ["Jazz", "Python", "C++", "React", "Docker"],
+            bullets: [
+                { text: "Cooked Creps" },
+                { text: "Made baked goods" },
+                { text: "Ate good food" }
+            ]
+        },
+        {
+            title: "Paris Crep Making", dates: "Jan 2024 -- Present", role: "Lead Cook",
+            tech_stack: ["Jazz", "Python", "C++", "React", "Docker"],
+            bullets: [
+                { text: "Cooked Creps" },
+                { text: "Made baked goods" },
+                { text: "Ate good food" }
+            ]
+        },
         {
             title: "Paris Crep Making", dates: "Jan 2024 -- Present", role: "Lead Cook",
             tech_stack: ["Jazz", "Python", "C++", "React", "Docker"],

@@ -1,106 +1,144 @@
 import fs from 'fs';
 import path from 'path';
-import latex from 'node-latex';
+import nunjucks from 'nunjucks';
 import { fileURLToPath } from 'url';
+import { exec } from 'child_process';
+import { promisify } from 'util';
 
+const execAsync = promisify(exec);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-function applyConstraints(inventory, constraints) {
-    if (!inventory) {
-        throw new Error("Missing inventory data for compilation.");
+// Nunjucks Config
+const env = nunjucks.configure(path.join(__dirname, '../templates'), {
+    autoescape: false,
+    tags: {
+        blockStart: '<%', blockEnd: '%>',
+        variableStart: '<<', variableEnd: '>>',
+        commentStart: '<#', commentEnd: '#>'
     }
+});
 
-    // Deep copy to avoid mutating the original data
-    const tailored = JSON.parse(JSON.stringify(inventory));
-    const minScore = constraints.minScore || 40;
-
-    // Filter experience bullets, ignore jobs with 0 bullets left
-    tailored.experience.forEach(job => {
-        job.bullets = job.bullets
-            .filter(b => b.score >= minScore)
-            .sort((a, b) => b.score - a.score);
+env.addFilter('escape_tex', (text) => {
+    if (typeof text !== 'string') return text;
+    if (text === "C#") return "\\CS";
+    if (text === "C++") return "\\CPP";
+    
+    let escaped = text.replace(/[&%$#_{}~^\\]/g, (match) => {
+        const replacements = { '&': '\\&', '%': '\\%', '$': '\\$', '#': '\\#', '_': '\\_', '{': '\\{', '}': '\\}', '~': '\\textasciitilde{}', '^': '\\textasciicircum{}', '\\': '\\textbackslash{}' };
+        return replacements[match];
     });
-    tailored.experience = tailored.experience.filter(job => job.bullets.length > 0);
+    return escaped.replace(/\*\*(.*?)\*\*/g, '\\textbf{$1}');
+});
 
-    // Filter project bullets, ignore projects with 0 bullets left
-    tailored.projects.forEach(proj => {
-        proj.bullets = proj.bullets
-            .filter(b => b.score >= minScore)
-            .sort((a, b) => b.score - a.score);
+const MIN_BULLETS = 2;
+
+// Calculates and executes the lowest cost cut
+function executeCheapestCut(data) {
+    let moves = [];
+
+    // Analyze scores of projects
+    data.projects?.forEach((p, idx) => {
+        if (p.bullets.length > MIN_BULLETS) {
+            moves.push({ type: 'trim_proj', idx, cost: p.bullets[p.bullets.length - 1].score, desc: `Trim '${p.title}' bullet #${p.bullets.length}` });
+        } else if (p.bullets.length === MIN_BULLETS) {
+            moves.push({ type: 'drop_proj', idx, cost: p.bullets.reduce((sum, b) => sum + b.score, 0), desc: `Drop '${p.title}' entirely` });
+        }
     });
-    tailored.projects = tailored.projects.filter(proj => proj.bullets.length > 0);
 
-    return tailored;
+    // Analyze scores of experience
+    data.experience?.forEach((e, idx) => {
+        if (e.bullets.length > MIN_BULLETS) {
+            moves.push({ type: 'trim_exp', idx, cost: e.bullets[e.bullets.length - 1].score, desc: `Trim '${e.company}' bullet #${e.bullets.length}` });
+        } else if (e.bullets.length === MIN_BULLETS) {
+            moves.push({ type: 'drop_exp', idx, cost: e.bullets.reduce((sum, b) => sum + b.score, 0) + 100, desc: `Drop '${e.company}' entirely` });
+        }
+    });
+
+    if (moves.length === 0) return false;
+
+    // Sort by cost, execute the cheapest
+    moves.sort((a, b) => a.cost - b.cost);
+    const best = moves[0];
+    
+    console.log(`      Action: ${best.desc} (Cost: ${best.cost})`);
+
+    if (best.type === 'trim_proj') data.projects[best.idx].bullets.pop();
+    if (best.type === 'drop_proj') data.projects.splice(best.idx, 1);
+    if (best.type === 'trim_exp') data.experience[best.idx].bullets.pop();
+    if (best.type === 'drop_exp') data.experience.splice(best.idx, 1);
+
+    return true;
 }
 
-// Add slash / escape for special characters
-const escapeLatex = (str) => {
-    if (!str) return '';
-    return String(str).replace(/[&%$#_{}~^\\]/g, (match) => `\\${match}`);
-};
+// Generates the .tex, compiles it, and parses the stdout to check page count
+async function generateAndMeasure(data, constraints, outputDir, fileName) {
+    let texString = env.render('template1.tex', data);
+    texString = texString.replace(/\\documentclass\[.*?\]\{article\}/, `\\documentclass[${constraints.fontSize || 11}pt]{article}`);
 
-export const compileResume = (applicationId, constraints, userScoredInventory) => {
-    return new Promise((resolve, reject) => {
-        const tailoredData = applyConstraints(userScoredInventory, constraints);
+    const texPath = path.join(outputDir, `${fileName}.tex`);
+    fs.writeFileSync(texPath, texString);
 
-        // Just read .tex template as just normal file
-        const templatePath = path.join(__dirname, '../templates/basic.tex');
-        let texString = fs.readFileSync(templatePath, 'utf8');
+    let outputLog = "";
+    try {
+        const { stdout } = await execAsync(`pdflatex -interaction=nonstopmode -output-directory=${outputDir} ${texPath}`, { maxBuffer: 1024 * 1024 * 5 });
+        outputLog = stdout;
+    } catch (e) {
+        outputLog = e.stdout || "";
+    }
 
-        // Make latex for experience section (project, bullets)
-        const experienceLatex = tailoredData.experience.map(job => `
-            \\noindent \\textbf{${escapeLatex(job.company)}} \\hfill \\textbf{${escapeLatex(job.dates)}} \\par
-            \\noindent \\textit{${escapeLatex(job.role)}} \\hfill \\textit{${escapeLatex(job.location)}} \\par
-            \\begin{itemize}
-            ${job.bullets.map(b => `\\item ${escapeLatex(b.text)}`).join('\n')}
-            \\end{itemize}
-            \\vspace{4pt}
-        `).join('\n');
+    const match = outputLog.match(/Output written on[\s\S]*?\(\s*(\d+)\s+page/i);
+    
+    if (match) {
+        return parseInt(match[1], 10);
+    }
+    
+    console.log("[Debug] Could not parse page count from pdflatex. Assuming 1.");
+    return 1;
+}
 
-        // Make latex for project section (project, bullets)
-        const projectsLatex = tailoredData.projects.map(proj => `
-            \\noindent \\textbf{${escapeLatex(proj.title)}} \\hfill \\textbf{${escapeLatex(proj.dates)}} \\par
-            \\noindent \\textit{${escapeLatex(proj.role)}} \\par
-            \\begin{itemize}
-            ${proj.bullets.map(b => `\\item ${escapeLatex(b.text)}`).join('\n')}
-            \\end{itemize}
-            \\vspace{4pt}
-        `).join('\n');
+export const compileResume = async (applicationId, constraints, userScoredInventory) => {
+    let data = JSON.parse(JSON.stringify(userScoredInventory));
+    const minScore = constraints.minScore || 40;
+    const maxPages = constraints.maxPages || 1;
 
-        // Swap in latex template placeholders for tailored values
-        texString = texString
-            .replace('___ABOUT_NAME___', escapeLatex(tailoredData.about.name))
-            .replace('___ABOUT_EMAIL___', escapeLatex(tailoredData.about.email))
-            .replace('___ABOUT_PHONE___', escapeLatex(tailoredData.about.phone))
-            .replace('___ABOUT_LOCATION___', escapeLatex(tailoredData.about.location))
-            .replace('___EXPERIENCE_LIST___', experienceLatex)
-            .replace('___PROJECTS_LIST___', projectsLatex);
-
-        // Setup file path for the final PDF
-        const outputDir = path.join(__dirname, '../public/pdfs');
-        if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
-        
-        // ID to identify PDF for application later
-        const fileName = `resume_${applicationId}.pdf`;
-        const pdfPath = path.join(outputDir, fileName);
-
-        // node-latex library just to compile / save PDF
-        const output = fs.createWriteStream(pdfPath);
-        const pdf = latex(texString);
-
-        pdf.pipe(output);
-
-        pdf.on('error', err => {
-            console.error('LaTeX compilation error:', err);
-            reject(err);
+    console.log("--- Phase 1: Applying Score Threshold Constraints ---");
+    ['experience', 'projects'].forEach(section => {
+        if (!data[section]) return;
+        data[section].forEach(item => {
+            item.bullets = item.bullets.filter(b => b.score >= minScore).sort((a, b) => b.score - a.score);
         });
-
-        pdf.on('finish', () => {
-            resolve({
-                pdfUrl: `/pdfs/${fileName}`,
-                snapshotData: tailoredData
-            });
-        });
+        data[section] = data[section].filter(item => item.bullets.length >= MIN_BULLETS);
     });
+
+    const outputDir = path.join(__dirname, '../public/pdfs');
+    if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
+    const fileName = `resume_${applicationId}`;
+
+    console.log("--- Phase 2: The Lifeboat (Page Fitting) ---");
+    
+    // Initial compile and measure
+    let pages = await generateAndMeasure(data, constraints, outputDir, fileName);
+    
+    let iteration = 0;
+    while (pages > maxPages && iteration < 50) {
+        console.log(`   Iteration ${iteration}: ${pages} pages. Calculating lowest cost cut...`);
+        
+        const canCut = executeCheapestCut(data);
+        if (!canCut) {
+            console.log("   WARNING: No valid moves left. Cannot shrink further.");
+            break; 
+        }
+
+        // Reccompile and measure after a cut
+        pages = await generateAndMeasure(data, constraints, outputDir, fileName);
+        iteration++;
+    }
+
+    console.log(`SUCCESS: Resume fits on ${pages} page(s).`);
+
+    return {
+        pdfUrl: `/pdfs/${fileName}.pdf`,
+        snapshotData: data 
+    };
 };
