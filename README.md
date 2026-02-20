@@ -8,7 +8,7 @@ Hazem Algendy & Shuwen Luo
 
 ## Page Deployment Link
 
-[AWS LINK HERE]
+http://18.221.43.153:3000 (AWS)
 
 ## Class Link
 
