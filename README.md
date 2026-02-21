@@ -26,6 +26,9 @@ To build a full-stack web application using Node.js, Express, MongoDB, and Vanil
 
 ![Project Screenshot](./images/p2-screenshot.png)
 
+## slides
+https://docs.google.com/presentation/d/1FkGssdfWcpyI_6at07nKU7a6Y6zL4JwWYONk2_e8edY/edit?usp=sharing
+
 ## demo video
 https://drive.google.com/file/d/1g5Qp2WZQafikbACMAxpIg-2-QfoN4OpJ/view?usp=sharing
 
