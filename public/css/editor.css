@@ -96,7 +96,67 @@ fieldset {
     margin-bottom: 8px;
     align-items: center;
 }
+
 .score-text {
     margin: 0;
     font-size: 0.9em;
+}
+
+button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#save-btn, #generate-btn, #score-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+#save-btn:hover, #generate-btn:hover, #score-btn:hover {
+    background-color: #0056b3;
+}
+
+#download-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+#download-btn:hover {
+    background-color: #218838;
+}
+
+#delete-btn {
+    background-color: #dc3545;
+    color: white;
+    margin-left: auto;
+}
+
+#delete-btn:hover {
+    background-color: #c82333;
+}
+
+.scoring-controls {
+    margin-bottom: 15px;
+}
+
+.sticky-footer {
+    position: sticky;
+    bottom: 0;
+    background-color: white;
+    padding: 15px 0 0 0;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -10px 10px -10px rgba(0,0,0,0.1);
+    z-index: 10;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
 }
