@@ -17,6 +17,7 @@ router.post('/', async (req, res) => {
             company: req.body.company,
             jobDescription: req.body.jobDescription,
             constraints: req.body.constraints || { maxPages: 1 },
+            inventory: req.body.inventory,
             createdAt: new Date(),
         };
 

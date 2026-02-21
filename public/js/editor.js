@@ -25,7 +25,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Load in last compiled PDF if found
         const snaps = await (await fetch(`/api/snapshots?applicationId=${appId}`)).json();
-        if (snaps.length) showPdf(snaps[snaps.length - 1].pdfPath);
+        if (snaps.length) {
+            const latestSnap = snaps[snaps.length - 1];
+            showPdf(latestSnap.pdfUrl || latestSnap.pdfPath);
+        }
     } else {
         currentInventory = await (await fetch('/api/inventory')).json();
     }
@@ -34,12 +37,27 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // // // HELPER METHODS // // //
 
-    // Show compiled PDF in pdf frame
+    // Show compiled PDF in pdf frame and setup download
     function showPdf(url) {
         const frame = document.getElementById('pdf-frame');
         frame.src = url;
         frame.classList.add('active');
         document.getElementById('pdf-placeholder').style.display = 'none';
+
+        // Show and configure the Download button
+        const downloadBtn = document.getElementById('download-btn');
+        if (downloadBtn) {
+            downloadBtn.classList.remove('hidden');
+            downloadBtn.onclick = () => {
+                const companyName = document.getElementById('company').value || 'Target';
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `ResuMatch_${companyName.replace(/\s+/g, '_')}_Resume.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            };
+        }
     }
 
     // Create the section that shows / lets user score bullets
@@ -56,7 +74,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 item.bullets.forEach((b, bIdx) => {
                     scoringContainer.innerHTML += `
                         <div class="score-item">
-                            <input type="number" class="score-input" data-type="${type}" data-item="${iIdx}" data-bullet="${bIdx}" value="${b.score}" min="0" max="100">
+                            <input type="number" class="score-input" data-type="${type}" data-item="${iIdx}" data-bullet="${bIdx}" value="${b.score || 0}" min="0" max="100">
                             <p class="score-text">${b.text}</p>
                         </div>`;
                 });
@@ -68,7 +86,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     function getPayload() {
         document.querySelectorAll('.score-input').forEach((input) => {
             const { type, item, bullet } = input.dataset;
-            currentInventory[type][item].bullets[bullet].score = parseInt(input.value);
+            const parsedScore = parseInt(input.value);
+            currentInventory[type][item].bullets[bullet].score = isNaN(parsedScore) ? 0 : parsedScore;
         });
         const fd = new FormData(form);
         return {
@@ -96,10 +115,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             body: JSON.stringify(getPayload()),
         });
 
-        // After submit, not a new application anymore, add id to url
         if (res.ok) {
-            if (!appId) window.location.href = `/editor?id=${(await res.json()).id}`;
-            else alert('Application Saved!');
+            if (!appId) {
+                const resData = await res.json();
+                const newId = resData._id || resData.insertedId || resData.id;
+                window.location.href = `/editor?id=${newId}`;
+            } else {
+                alert('Application Saved!');
+            }
+        } else {
+            alert('Failed to save application.');
         }
     });
 
@@ -117,8 +142,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             }),
         });
 
-        if (res.ok) showPdf((await res.json()).pdfUrl);
-        else alert('Latex Compilation Failed');
+        if (res.ok) {
+            showPdf((await res.json()).pdfUrl);
+        } else {
+            alert('Latex Compilation Failed');
+        }
     });
 
     // Score application bullets with algorithm
@@ -141,8 +169,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('delete-btn').addEventListener('click', async () => {
         if (confirm('Are you sure you want to delete this application?')) {
             await fetch(`/api/applications/${appId}`, { method: 'DELETE' });
-
-            // Leave to dashboard, page deleted
             window.location.href = '/';
         }
     });
